@@ -6,14 +6,6 @@ import z32 from 'z32';
 /**
  * ENV knobs:
  *   TIMEOUT_MS=60000
- *
- * Usage:
- *   # On Device A (e.g. home Wi-Fi):
- *   node pairing.mjs host
- *   # Copy the printed invite string.
- *
- *   # On Device B (e.g. 5G):
- *   node pairing.mjs join "<paste the invite>"
  */
 
 const mode = process.argv[2]
@@ -55,13 +47,12 @@ async function runHost() {
         }
     })
 
-    // await member.flushed()
+    await member.flushed()
     console.log('[host] member announced; waiting for pairing...')
 
     const timeout = setTimeout(() => {
         console.error(`[host] TIMEOUT after ${TIMEOUT_MS}ms (no pairing)`)
         process.exitCode = 2
-        // Let SIGINT handler cleanup
         process.kill(process.pid, 'SIGINT')
     }, TIMEOUT_MS)
 
@@ -73,7 +64,6 @@ async function runHost() {
         process.exit()
     })
 
-    // Keep process alive for observation
     console.log(`[host] timeout=${TIMEOUT_MS}ms`)
     console.log('[host] Press Ctrl+C to stop.')
     await once(process, 'SIGINT')
