@@ -1,0 +1,14 @@
+{
+  "name": "blind-pairing-repro",
+  "type": "module",
+  "scripts": {
+    "host": "node pairing.mjs host",
+    "join": "node pairing.mjs join"
+  },
+  "dependencies": {
+    "b4a": "1.7.1",
+    "blind-pairing": "2.3.1",
+    "hyperswarm": "4.14.0",
+    "z32": "1.1.0"
+  }
+}
