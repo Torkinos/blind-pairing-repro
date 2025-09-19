@@ -58,7 +58,6 @@ async function runHost() {
         }
     })
 
-    await member.flushed()
     console.log('[host] member announced; waiting for pairing...')
 
     const timeout = setTimeout(() => {
