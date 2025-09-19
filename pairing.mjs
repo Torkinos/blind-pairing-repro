@@ -8,9 +8,7 @@ import z32 from 'z32';
 
 /**
  * ENV knobs:
- *   POLL_MS=5000
  *   TIMEOUT_MS=60000
- *   HYPERDHT_BOOTSTRAP='host:port,host:port'  (optional override)
  *
  * Usage:
  *   # On Device A (e.g. home Wi-Fi):
@@ -24,23 +22,7 @@ import z32 from 'z32';
 const mode = process.argv[2]
 const inviteArg = process.argv[3]
 
-const POLL_MS = Number(process.env.POLL_MS || 5000)
 const TIMEOUT_MS = Number(process.env.TIMEOUT_MS || 60000)
-
-function bootstrapFromEnv() {
-    const raw = process.env.HYPERDHT_BOOTSTRAP
-    if (!raw) return undefined
-    // format: "host:port,host:port"
-    const list = raw
-        .split(',')
-        .map(s => s.trim())
-        .filter(Boolean)
-    if (!list.length) return undefined
-    return list.map(entry => {
-        const [host, port] = entry.split(':')
-        return { host, port: Number(port || 49737) }
-    })
-}
 
 function once(emitter, event) {
     return new Promise(resolve => emitter.once(event, resolve))
@@ -58,8 +40,8 @@ async function runHost() {
     const { invite, publicKey, discoveryKey } = BlindPairing.createInvite(autobaseKey)
     console.log('\n=== INVITE (share this with the joiner) ===\n', z32.encode(invite), '\n')
 
-    const swarm = new Hyperswarm({ bootstrap: bootstrapFromEnv() })
-    const host = new BlindPairing(swarm, { poll: POLL_MS })
+    const swarm = new Hyperswarm()
+    const host = new BlindPairing(swarm)
 
     const member = host.addMember({
         discoveryKey,
@@ -95,7 +77,7 @@ async function runHost() {
     })
 
     // Keep process alive for observation
-    console.log(`[host] poll=${POLL_MS}ms, timeout=${TIMEOUT_MS}ms`)
+    console.log(`[host] timeout=${TIMEOUT_MS}ms`)
     console.log('[host] Press Ctrl+C to stop.')
     await once(process, 'SIGINT')
 }
@@ -108,8 +90,8 @@ async function runJoin(inviteStr) {
     console.log('> Starting JOIN')
     const userData = b4a.alloc(32).fill('i am a candidate')
 
-    const swarm = new Hyperswarm({ bootstrap: bootstrapFromEnv() })
-    const joiner = new BlindPairing(swarm, { poll: POLL_MS })
+    const swarm = new Hyperswarm()
+    const joiner = new BlindPairing(swarm)
 
     const candidate = joiner.addCandidate({
         invite: inviteStr,
@@ -142,7 +124,7 @@ async function runJoin(inviteStr) {
         process.exit()
     })
 
-    console.log(`[join] poll=${POLL_MS}ms, timeout=${TIMEOUT_MS}ms`)
+    console.log(`[join] timeout=${TIMEOUT_MS}ms`)
     console.log('[join] Press Ctrl+C to stop once done.')
     await once(process, 'SIGINT')
 }
