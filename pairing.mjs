@@ -1,7 +1,4 @@
-// pairing.mjs
 import Hyperswarm from 'hyperswarm'
-// If BlindPairing is published:  import BlindPairing from 'blind-pairing'
-// If it's local (as in your snippet):
 import BlindPairing from 'blind-pairing'
 import b4a from 'b4a'
 import z32 from 'z32';
@@ -58,6 +55,7 @@ async function runHost() {
         }
     })
 
+    // await member.flushed()
     console.log('[host] member announced; waiting for pairing...')
 
     const timeout = setTimeout(() => {
