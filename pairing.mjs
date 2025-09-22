@@ -42,12 +42,12 @@ async function runHost() {
                 candidate.confirm({ key: autobaseKey })
                 console.log('[host] confirm() sent')
             } catch (err) {
-                console.error('[host] onadd error:', err)
+                // console.error('[host] onadd error:', err)
             }
         }
     })
 
-    await member.flushed()
+    // await member.flushed()
     console.log('[host] member announced; waiting for pairing...')
 
     const timeout = setTimeout(() => {
@@ -84,7 +84,7 @@ async function runJoin(inviteStr) {
         invite: inviteStr,
         userData,
         async onadd(result) {
-            console.log('[join] onadd result:', result)
+            // console.log('[join] onadd result:', result)
         }
     })
 

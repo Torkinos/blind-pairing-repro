@@ -6,12 +6,7 @@ setTimeout(() => {
     process.exit(0)
 }, 60000)
 
-// const pass = new Autopass(new Corestore('./pass'))
-
-// const inv = await pass.createInvite()
-// console.log('share to add', inv)
-
-const pair = Autopass.pair(new Corestore('./another-pass'), "yryw1ztyxh4mnb3pns4egpi1itxa857p9twouugg3bhp6ztn5tqhkjtgw8uz9n9kthq4ctikhmpmi88q9cmnmmiuorj7yyus3a3bb1scoo")
+const pair = Autopass.pair(new Corestore('./another-pass'), "yry9okred7mj6yqr6k6cfrukz1cz54gp81kbucchcq9pqrht7yct8or1bo6rde7pk7y7ioa4rnsuhd5ii8arec6giq44qipcxt14b6rwuw")
 console.log('pairing...')
 
 const anotherPass = await pair.finished()
