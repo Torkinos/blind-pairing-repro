@@ -11,7 +11,7 @@ import z32 from 'z32';
 const mode = process.argv[2]
 const inviteArg = process.argv[3]
 
-const TIMEOUT_MS = Number(process.env.TIMEOUT_MS || 60000)
+const TIMEOUT_MS = Number(process.env.TIMEOUT_MS || 600000)
 
 function once(emitter, event) {
     return new Promise(resolve => emitter.once(event, resolve))
@@ -42,7 +42,7 @@ async function runHost() {
                 candidate.confirm({ key: autobaseKey })
                 console.log('[host] confirm() sent')
             } catch (err) {
-                // console.error('[host] onadd error:', err)
+                console.error('[host] onadd error:', err)
             }
         }
     })
@@ -84,7 +84,7 @@ async function runJoin(inviteStr) {
         invite: inviteStr,
         userData,
         async onadd(result) {
-            // console.log('[join] onadd result:', result)
+            console.log('[join] onadd result:', result)
         }
     })
 

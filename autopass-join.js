@@ -1,6 +1,12 @@
 import Autopass from 'autopass'
 import Corestore from 'corestore'
 
+import { rm } from "fs/promises";
+
+console.log('cleaning up old data...');
+await rm("./another-pass", { recursive: true, force: true });
+console.log('old data removed.');
+
 setTimeout(() => {
     console.log('timeout at 60s, exiting')
     process.exit(0)

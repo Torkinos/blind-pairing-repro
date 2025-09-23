@@ -1,14 +1,14 @@
 import Autopass from 'autopass'
 import Corestore from 'corestore'
-import fs from 'fs'
+import { rm } from "fs/promises";
 
+console.log('cleaning up old data...');
+await rm("./pass", { recursive: true, force: true });
+console.log('old data removed.');
 
-setTimeout(() => {
-    console.log('timeout at 60s, exiting')
-    process.exit(0)
-}, 60000)
 
 const pass = new Autopass(new Corestore('./pass'))
 
 const inv = await pass.createInvite()
 console.log('share to add: ', inv)
+
